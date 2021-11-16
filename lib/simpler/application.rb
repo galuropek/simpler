@@ -28,9 +28,10 @@ module Simpler
 
     def call(env)
       route = @router.route_for(env)
+      return page_not_found unless route
+
       controller = route.controller.new(env)
       action = route.action
-
       make_response(controller, action)
     end
 
@@ -54,5 +55,8 @@ module Simpler
       controller.make_response(action)
     end
 
+    def page_not_found
+      Rack::Response.new(['Page not found!'], 404, 'Content-Type' => 'text/html')
+    end
   end
 end
