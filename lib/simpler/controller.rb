@@ -1,9 +1,13 @@
-require_relative 'view'
+require_relative 'view_render'
 
 module Simpler
   class Controller
 
     attr_reader :name, :request, :response
+
+    HEADERS = {
+      content_type: { plain: 'text/plain', html: 'text/html' }
+    }.freeze
 
     def initialize(env)
       @name = extract_name
@@ -29,6 +33,7 @@ module Simpler
     end
 
     def set_default_headers
+      @request.env['simpler.content_type'] = :html
       @response['Content-Type'] = 'text/html'
     end
 
@@ -39,7 +44,7 @@ module Simpler
     end
 
     def render_body
-      View.new(@request.env).render(binding)
+      ViewRender.new(@request.env).render(binding)
     end
 
     def params
@@ -47,7 +52,20 @@ module Simpler
     end
 
     def render(template)
-      @request.env['simpler.template'] = template
+      response_data = prepare_response(template)
+      @request.env['simpler.content_type'] = response_data[:type]
+      @request.env['simpler.template'] = response_data[:body]
+    end
+
+    def prepare_response(template)
+      if template.is_a?(Hash)
+        type, body = template.first
+      else
+        type = :html
+        body = template
+      end
+
+      { type: type, body: body }
     end
 
   end
