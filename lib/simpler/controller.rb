@@ -68,5 +68,8 @@ module Simpler
       { type: type, body: body }
     end
 
+    def status(code)
+      @response.status = code
+    end
   end
 end
