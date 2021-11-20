@@ -19,6 +19,7 @@ module Simpler
       @request.env['simpler.controller'] = self
       @request.env['simpler.action'] = action
 
+
       set_params_from_route(params)
       set_default_headers(action)
       send(action)
@@ -35,6 +36,7 @@ module Simpler
 
     def set_params_from_route(params)
       params.each { |key, value| @request.update_param(key, value) }
+      @request.env['simpler.params'] = params
     end
 
     def set_default_headers(action)

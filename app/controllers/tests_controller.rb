@@ -14,5 +14,5 @@ class TestsController < Simpler::Controller
   end
 
   def create; end
-gi
+
 end

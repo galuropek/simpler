@@ -56,7 +56,7 @@ module Simpler
     end
 
     def page_not_found
-      Rack::Response.new(['Page not found!'], 404, 'Content-Type' => 'text/html')
+      [404, {'Content-Type' => 'text/html'}, ['Page not found!']]
     end
   end
 end

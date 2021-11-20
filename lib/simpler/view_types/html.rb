@@ -5,6 +5,7 @@ module Simpler
     class Html < View
 
       def render(binding)
+        @env['simpler.view'] = relative_template_path
         template = File.read(template_path)
         ERB.new(template).result(binding)
       end
