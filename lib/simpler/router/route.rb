@@ -4,8 +4,6 @@ module Simpler
 
       attr_reader :controller, :action
 
-      PARAMS_KEYS_REGEXP = { id: '\\d+' }.freeze
-
       def initialize(method, path, controller, action)
         @method = method
         @path = path

@@ -5,10 +5,6 @@ module Simpler
 
     attr_reader :name, :request, :response
 
-    HEADERS = {
-      content_type: { plain: 'text/plain', html: 'text/html' }
-    }.freeze
-
     def initialize(env)
       @name = extract_name
       @request = Rack::Request.new(env)
